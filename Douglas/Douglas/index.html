@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSLA Digital Ledger System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-blue-50">
+
+    <div id="app" class="min-h-screen flex flex-col items-center justify-center bg-blue-50 text-gray-800 p-4">
+
+        <!-- Header -->
+        <header class="w-full max-w-4xl mx-auto text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-800">VSLA DIGITAL LEDGER SYSTEM</h1>
+            <p class="text-blue-600 mt-2">Empowering VSLAs in the Bongo District.</p>
+        </header>
+
+        <!-- Homepage Section -->
+        <section id="homepage-section" class="w-full max-w-2xl text-center">
+            <div class="bg-white p-10 rounded-2xl shadow-lg">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Welcome!</h2>
+                <p class="text-gray-600 mb-8">
+                    Zaare – Welcome. The VSLA Digital Ledger System is a modern, secure, and user-friendly platform designed to help VSLA treasurers in the Bongo District manage their group's finances with ease. Say goodbye to manual errors and hello to efficiency and transparency.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button id="go-to-signup-btn" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold">Sign Up Now</button>
+                    <button id="go-to-login-btn" class="bg-gray-200 text-gray-800 px-8 py-3 rounded-lg hover:bg-gray-300 transition duration-300 font-semibold">Log In</button>
+                </div>
+                <div class="text-center mt-4">
+                    <button id="go-to-admin-btn" class="text-sm text-red-600 hover:text-red-800 hover:underline">Super Admin Access</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auth Section -->
+        <section id="auth-section" class="hidden w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+            <!-- Sign Up Form -->
+            <div id="signup-form" class="hidden">
+                <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Create an Account</h2>
+                <form id="signup">
+                     <div class="mb-4">
+                        <label for="signup-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="signup-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., John Doe" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="signup-email-phone" class="block text-sm font-medium text-gray-700 mb-1">Email or Phone Number</label>
+                        <input type="text" id="signup-email-phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., yourname@example.com or 024xxxxxxx" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="signup-password" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="********" required>
+                            <button type="button" id="toggle-signup-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                                <svg id="signup-eye-open" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg id="signup-eye-closed" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">Sign Up</button>
+                </form>
+                <p class="text-center text-sm mt-6">
+                    Already have an account? <a href="#" id="show-login" class="text-blue-600 hover:underline">Log In</a>
+                </p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="hidden">
+                <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Log In</h2>
+                <form id="login">
+                    <div class="mb-4">
+                        <label for="login-email-phone" class="block text-sm font-medium text-gray-700 mb-1">Email or Phone Number</label>
+                        <input type="text" id="login-email-phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your email or phone" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="login-password" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="********" required>
+                            <button type="button" id="toggle-login-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                                <svg id="login-eye-open" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg id="login-eye-closed" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">Log In</button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="#" id="forgot-password-link" class="text-sm text-blue-600 hover:underline">Forgot Password?</a>
+                </div>
+                <p class="text-center text-sm mt-6">
+                    Don't have an account? <a href="#" id="show-signup" class="text-blue-600 hover:underline">Sign Up</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Super Admin Login Section -->
+        <section id="super-admin-section" class="hidden w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-red-700 mb-2">Super Admin Access</h2>
+                <p class="text-gray-600 text-sm">System Administration Panel</p>
+            </div>
+            <form id="super-admin-login">
+                <div class="mb-4">
+                    <label for="admin-username" class="block text-sm font-medium text-gray-700 mb-1">Admin Username</label>
+                    <input type="text" id="admin-username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500" placeholder="Enter admin username" required>
+                </div>
+                <div class="mb-6">
+                    <label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Admin Password</label>
+                    <div class="relative">
+                        <input type="password" id="admin-password" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500" placeholder="********" required>
+                        <button type="button" id="toggle-admin-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                            <svg id="admin-eye-open" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg id="admin-eye-closed" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition duration-300">Access Admin Panel</button>
+            </form>
+            <div class="text-center mt-4">
+                <button id="back-to-home" class="text-sm text-blue-600 hover:underline">← Back to Home</button>
+            </div>
+        </section>
+
+        <!-- Super Admin Dashboard Section -->
+        <section id="super-admin-dashboard" class="hidden w-full max-w-6xl mx-auto mt-8">
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-red-700">Super Admin Dashboard</h2>
+                    <div class="flex items-center gap-2">
+                        <button id="refresh-admin-data" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg hover:bg-blue-200 transition">Refresh Data</button>
+                        <button id="admin-logout" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Logout</button>
+                    </div>
+                </div>
+
+                <!-- Overview Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-sm">Total VSLA Groups</p>
+                            <p id="total-groups" class="text-2xl font-bold text-slate-800">0</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-4">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-sm">Total Members</p>
+                            <p id="total-members" class="text-2xl font-bold text-slate-800">0</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-4">
+                        <div class="bg-indigo-100 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-sm">Active Users (7 days)</p>
+                            <p id="active-users" class="text-2xl font-bold text-slate-800">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Groups Table -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold text-blue-800">VSLA Groups Overview</h3>
+                        <div class="flex gap-2">
+                            <select id="group-filter" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="all">All Groups</option>
+                                <option value="most-active">Most Active</option>
+                                <option value="newest">Newest Groups</option>
+                            </select>
+                            <input id="group-search" type="text" placeholder="Search groups..." class="px-3 py-2 border border-gray-300 rounded-lg text-sm w-64">
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Group Name</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Members</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Last Activity</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Total Savings</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Total Loans</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Created</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-groups-list">
+                                <tr>
+                                    <td colspan="6" class="text-center py-8 text-gray-500">Loading groups data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="hidden w-full max-w-4xl mx-auto mt-8">
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-blue-700">Dashboard</h2>
+                    <div class="flex items-center gap-2">
+                        <button id="export-report-btn" class="bg-gray-100 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-200 transition">Export Report</button>
+                        <button id="loans-dashboard-btn" class="bg-yellow-100 text-yellow-800 px-3 py-2 rounded-lg hover:bg-yellow-200 transition">Loans Status</button>
+                        <button id="shareout-btn" class="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition">Share-out</button>
+                    <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Logout</button>
+                    </div>
+                </div>
+                
+                <!-- Create Group Form -->
+                <div id="create-group-container" class="mb-8 p-6 bg-blue-100 rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">Create a New VSLA Group</h3>
+                    <form id="create-group-form" class="space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" id="group-name" placeholder="Enter Group Name" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            <input type="number" id="group-interest-rate" placeholder="Monthly Interest Rate (%)" min="0" step="0.01" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            <input type="number" id="group-loan-duration" placeholder="Loan Duration (months)" min="1" step="1" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            <input type="text" id="group-currency" placeholder="Currency (e.g., GHS, USD)" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Create Group</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Groups List -->
+                <div id="groups-list-container" class="p-6 bg-white rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">Your Groups</h3>
+                    <div id="groups-list" class="space-y-4">
+                        <!-- Group items will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Group Management Section -->
+        <section id="group-management-section" class="hidden w-full max-w-4xl mx-auto mt-8">
+             <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <button id="back-to-dashboard" class="mb-6 bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition">&larr; Back to Dashboard</button>
+                <h2 id="current-group-name" class="text-2xl font-bold text-blue-700 mb-6"></h2>
+                <div class="flex items-center gap-2 mb-6">
+                    <button id="export-report-btn" class="bg-gray-100 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-200 transition">Export Report</button>
+                    <button id="loans-dashboard-btn" class="bg-yellow-100 text-yellow-800 px-3 py-2 rounded-lg hover:bg-yellow-200 transition">Loans Status</button>
+                    <button id="shareout-btn" class="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition">Share-out</button>
+                </div>
+
+                <!-- Group Summary Dashboard Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-sm">Total Savings</p>
+                            <p id="total-savings" class="text-2xl font-bold text-slate-800">GH₵ 0.00</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-4">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-sm">Total Loans Out (Principal)</p>
+                            <p id="total-loans" class="text-2xl font-bold text-slate-800">GH₵ 0.00</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-4">
+                        <div class="bg-indigo-100 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-sm">Total Available Cash</p>
+                            <p id="total-cash" class="text-2xl font-bold text-slate-800">GH₵ 0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Group Details -->
+                <div class="mb-8 p-6 bg-gray-50 rounded-2xl shadow-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4">Group Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Total Repayments:</span>
+                            <span id="total-repayments" class="font-semibold">0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Members with Loans:</span>
+                            <span id="members-with-loans" class="font-semibold">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Interest Rate:</span>
+                            <span id="summary-rate" class="font-semibold">0%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Loan Duration:</span>
+                            <span id="summary-duration" class="font-semibold">0 months</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Currency:</span>
+                            <span id="summary-currency" class="font-semibold">GHS</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Accrued Interest:</span>
+                            <span id="total-interest" class="font-semibold text-orange-600">0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add Member Form -->
+                <div class="mb-8 p-6 bg-blue-100 rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">Add New Member</h3>
+                    <form id="add-member-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div class="md:col-span-1">
+                            <label for="member-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" id="member-name" placeholder="Member's Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                        </div>
+                         <div class="md:col-span-1">
+                            <label for="member-gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                            <select id="member-gender" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-1">
+                             <label for="member-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="member-phone" placeholder="Phone Number" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                        </div>
+                        <div class="md:col-span-1">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Add Member</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Members List -->
+                <div class="p-6 bg-white rounded-2xl shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold text-blue-800">Group Members</h3>
+                        <input id="member-search" type="text" placeholder="Search members..." class="px-3 py-2 border border-gray-300 rounded-lg w-full md:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border rounded-lg">
+                            <thead class="bg-blue-200">
+                                <tr>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Member ID</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Name</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Gender</th>
+                                    <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody id="members-list">
+                                <!-- Member rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member Details Modal -->
+        <div id="member-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+            <div class="bg-white w-full max-w-2xl p-6 rounded-2xl shadow-lg max-h-[85vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="member-modal-title" class="text-xl font-semibold text-blue-800"></h3>
+                    <button id="close-member-modal" class="text-gray-600 hover:text-gray-800">✕</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium text-blue-700 mb-2">Record Savings</h4>
+                        <form id="savings-form" class="space-y-3">
+                            <input type="number" min="0" step="0.01" id="savings-amount" placeholder="Amount" class="w-full px-3 py-2 border rounded" required>
+                            <input type="text" id="savings-note" placeholder="Note (optional)" class="w-full px-3 py-2 border rounded">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Add Saving</button>
+                        </form>
+                        <h4 class="font-medium text-blue-700 mt-6 mb-2">Record Member Dues</h4>
+                        <form id="dues-form" class="space-y-3">
+                            <input type="number" min="0" step="0.01" id="dues-amount" placeholder="Amount" class="w-full px-3 py-2 border rounded" required>
+                            <input type="text" id="dues-note" placeholder="Note (optional)" class="w-full px-3 py-2 border rounded">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Add Dues</button>
+                        </form>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-blue-700 mb-2">Record Loan</h4>
+                        <form id="loans-form" class="space-y-3">
+                            <input type="number" min="0" step="0.01" id="loan-amount" placeholder="Amount" class="w-full px-3 py-2 border rounded" required>
+                            <input type="text" id="loan-note" placeholder="Note (optional)" class="w-full px-3 py-2 border rounded">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Add Loan</button>
+                        </form>
+                        <h4 class="font-medium text-blue-700 mt-6 mb-2">Record Loan Repayment</h4>
+                        <form id="repayment-form" class="space-y-3">
+                            <input type="number" min="0" step="0.01" id="repayment-amount" placeholder="Amount" class="w-full px-3 py-2 border rounded" required>
+                            <input type="text" id="repayment-note" placeholder="Note (optional)" class="w-full px-3 py-2 border rounded">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Add Repayment</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h4 class="font-medium text-blue-700 mb-2">Recent Activity</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h5 class="font-medium">Savings</h5>
+                            <div id="member-savings-list" class="max-h-56 overflow-y-auto divide-y"></div>
+                        </div>
+                        <div>
+                            <h5 class="font-medium">Loans & Repayments</h5>
+                            <div id="member-loans-summary" class="text-sm text-gray-700 mb-2"></div>
+                            <div id="member-loans-list" class="max-h-56 overflow-y-auto divide-y"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Reset Modal -->
+        <div id="password-reset-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+                <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Reset Password</h2>
+                <form id="password-reset-form">
+                    <div class="mb-4">
+                        <label for="reset-email" class="block text-sm font-medium text-gray-700 mb-1">Enter your signup email</label>
+                        <input type="email" id="reset-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="youremail@example.com" required>
+                         <p class="text-xs text-gray-500 mt-1">Password reset is only available for email-based accounts.</p>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Send Reset Link</button>
+                </form>
+                <button id="close-modal" class="w-full mt-4 bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300">Cancel</button>
+            </div>
+        </div>
+        
+        <!-- Custom Alert Modal -->
+        <div id="custom-alert-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md text-center">
+                <p id="custom-alert-message" class="text-lg mb-6"></p>
+                <button id="close-alert-modal" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">OK</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQJNDCkCEsrAHBmrWTtaXFK6C1C2mRRPk",
+            authDomain: "vsla-35d27.firebaseapp.com",
+            projectId: "vsla-35d27",
+            storageBucket: "vsla-35d27.appspot.com",
+            messagingSenderId: "476757032868",
+            appId: "1:476757032868:web:4cb07571e7d7a3880c4b31",
+            measurementId: "G-CCCQ4HZ3V5"
+        };
+
+        // Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            sendPasswordResetEmail,
+            onAuthStateChanged,
+            signOut,
+            signInAnonymously,
+            signInWithCustomToken
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            query, 
+            where, 
+            doc,
+            setDoc,
+            onSnapshot,
+            serverTimestamp,
+            enableIndexedDbPersistence,
+            getDocs,
+            collectionGroup
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- DOM Elements ---
+        const homepageSection = document.getElementById('homepage-section');
+        const authSection = document.getElementById('auth-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const groupManagementSection = document.getElementById('group-management-section');
+        const superAdminSection = document.getElementById('super-admin-section');
+        const superAdminDashboard = document.getElementById('super-admin-dashboard');
+        
+        const goToSignupBtn = document.getElementById('go-to-signup-btn');
+        const goToLoginBtn = document.getElementById('go-to-login-btn');
+        const goToAdminBtn = document.getElementById('go-to-admin-btn');
+
+        const signupFormEl = document.getElementById('signup-form');
+        const loginFormEl = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup');
+        const loginForm = document.getElementById('login');
+        const passwordResetForm = document.getElementById('password-reset-form');
+        const superAdminForm = document.getElementById('super-admin-login');
+
+        const showLoginBtn = document.getElementById('show-login');
+        const showSignupBtn = document.getElementById('show-signup');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const closeModalBtn = document.getElementById('close-modal');
+        const passwordResetModal = document.getElementById('password-reset-modal');
+        
+        const logoutBtn = document.getElementById('logout-btn');
+        const createGroupForm = document.getElementById('create-group-form');
+        const groupsList = document.getElementById('groups-list');
+
+        const backToDashboardBtn = document.getElementById('back-to-dashboard');
+        const currentGroupNameEl = document.getElementById('current-group-name');
+        const addMemberForm = document.getElementById('add-member-form');
+        const membersList = document.getElementById('members-list');
+        const memberSearch = document.getElementById('member-search');
+        const memberModal = document.getElementById('member-modal');
+        const closeMemberModalBtn = document.getElementById('close-member-modal');
+        const memberModalTitle = document.getElementById('member-modal-title');
+        const savingsForm = document.getElementById('savings-form');
+        const loansForm = document.getElementById('loans-form');
+        const memberSavingsList = document.getElementById('member-savings-list');
+        const memberLoansList = document.getElementById('member-loans-list');
+        
+        const customAlertModal = document.getElementById('custom-alert-modal');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+        const closeAlertModalBtn = document.getElementById('close-alert-modal');
+
+        let currentGroupId = null;
+        let groupsUnsubscribe = null;
+        let membersUnsubscribe = null;
+        let memberSavingsUnsubscribe = null;
+        let memberLoansUnsubscribe = null;
+        let memberDuesUnsubscribe = null;
+        let memberRepaymentsUnsubscribe = null;
+        let currentMemberDocId = null;
+        let currentMemberName = '';
+        let currentGroupConfig = { interestRatePctPerMonth: 0, loanDurationMonths: 0 };
+        let cachedMembers = [];
+        let currentMemberLoans = [];
+        let currentMemberRepayments = [];
+
+        // Password visibility toggle elements
+        const toggleSignupPassword = document.getElementById('toggle-signup-password');
+        const signupPasswordInput = document.getElementById('signup-password');
+        const signupEyeOpen = document.getElementById('signup-eye-open');
+        const signupEyeClosed = document.getElementById('signup-eye-closed');
+
+        const toggleLoginPassword = document.getElementById('toggle-login-password');
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginEyeOpen = document.getElementById('login-eye-open');
+        const loginEyeClosed = document.getElementById('login-eye-closed');
+
+        const toggleAdminPassword = document.getElementById('toggle-admin-password');
+        const adminPasswordInput = document.getElementById('admin-password');
+        const adminEyeOpen = document.getElementById('admin-eye-open');
+        const adminEyeClosed = document.getElementById('admin-eye-closed');
+        const backToHomeBtn = document.getElementById('back-to-home');
+        const adminLogoutBtn = document.getElementById('admin-logout');
+        const refreshAdminDataBtn = document.getElementById('refresh-admin-data');
+
+        // --- Helper Functions ---
+        function showAlert(message) {
+            customAlertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+        }
+
+        function getEmailFromInput(input) {
+            // Check if it's a valid email
+            if (input.includes('@')) {
+                return input;
+            }
+            // Otherwise, treat as phone and convert to dummy email
+            const sanitizedPhone = input.replace(/\D/g, '');
+            return `${sanitizedPhone}@example.com`;
+        }
+
+        // Enforce strong password: min 8 chars, at least 1 letter, 1 number, 1 special char
+        function isStrongPassword(password) {
+            const hasMinLength = password.length >= 8;
+            const hasLetter = /[A-Za-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[^A-Za-z0-9]/.test(password);
+            return hasMinLength && hasLetter && hasNumber && hasSpecial;
+        }
+
+        // Password visibility toggle functions
+        function togglePasswordVisibility(input, eyeOpen, eyeClosed) {
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                input.type = 'password';
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            }
+        }
+
+        // Add event listeners for password visibility toggles
+        if (toggleSignupPassword) {
+            toggleSignupPassword.addEventListener('click', () => {
+                togglePasswordVisibility(signupPasswordInput, signupEyeOpen, signupEyeClosed);
+            });
+        }
+
+        if (toggleLoginPassword) {
+            toggleLoginPassword.addEventListener('click', () => {
+                togglePasswordVisibility(loginPasswordInput, loginEyeOpen, loginEyeClosed);
+            });
+        }
+
+        if (toggleAdminPassword) {
+            toggleAdminPassword.addEventListener('click', () => {
+                togglePasswordVisibility(adminPasswordInput, adminEyeOpen, adminEyeClosed);
+            });
+        }
+
+        // --- App Initialization ---
+        let app, auth, db;
+        
+        try {
+            initializeAppAndAuth();
+        } catch (error) {
+            console.error('Failed to initialize Firebase:', error);
+            showAlert('Failed to initialize the application. Please refresh the page.');
+        }
+
+        function initializeAppAndAuth() {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            
+            // Enable offline persistence (queued writes when offline)
+            enableIndexedDbPersistence(db).catch((err) => {
+                console.warn('Persistence not enabled:', err?.code || err);
+            });
+            
+            console.log('Firebase initialized successfully');
+
+            // --- UI Navigation ---
+            function showHomepage() {
+                homepageSection.classList.remove('hidden');
+                authSection.classList.add('hidden');
+                dashboardSection.classList.add('hidden');
+                groupManagementSection.classList.add('hidden');
+                superAdminSection.classList.add('hidden');
+                superAdminDashboard.classList.add('hidden');
+            }
+
+            function showAuth(formToShow = 'login') {
+                homepageSection.classList.add('hidden');
+                authSection.classList.remove('hidden');
+                dashboardSection.classList.add('hidden');
+                groupManagementSection.classList.add('hidden');
+                superAdminSection.classList.add('hidden');
+                superAdminDashboard.classList.add('hidden');
+
+                if (formToShow === 'login') {
+                    loginFormEl.classList.remove('hidden');
+                    signupFormEl.classList.add('hidden');
+                } else {
+                    loginFormEl.classList.add('hidden');
+                    signupFormEl.classList.remove('hidden');
+                }
+            }
+
+            function showDashboard() {
+                homepageSection.classList.add('hidden');
+                authSection.classList.add('hidden');
+                dashboardSection.classList.remove('hidden');
+                groupManagementSection.classList.add('hidden');
+                superAdminSection.classList.add('hidden');
+                superAdminDashboard.classList.add('hidden');
+                currentGroupId = null;
+                if (membersUnsubscribe) membersUnsubscribe();
+                fetchGroups(db, auth);
+                // Clear summary when leaving group
+                const el1 = document.getElementById('total-savings');
+                const el2 = document.getElementById('total-loans');
+                const el3 = document.getElementById('members-with-loans');
+                if (el1) el1.textContent = 'GHS 0.00';
+                if (el2) el2.textContent = 'GHS 0.00';
+                if (el3) el3.textContent = '0';
+            }
+
+            function showGroupManagement(groupId, groupName) {
+                homepageSection.classList.add('hidden');
+                authSection.classList.add('hidden');
+                dashboardSection.classList.add('hidden');
+                groupManagementSection.classList.remove('hidden');
+                superAdminSection.classList.add('hidden');
+                superAdminDashboard.classList.add('hidden');
+                currentGroupId = groupId;
+                currentGroupNameEl.textContent = groupName;
+                if (groupsUnsubscribe) groupsUnsubscribe();
+                loadGroupConfig(groupId);
+                fetchMembers(db, groupId);
+                updateGroupSummary(groupId);
+                // Set up real-time summary updates
+                setupRealTimeSummaryUpdates(groupId);
+            }
+
+            function showSuperAdmin() {
+                homepageSection.classList.add('hidden');
+                authSection.classList.add('hidden');
+                dashboardSection.classList.add('hidden');
+                groupManagementSection.classList.add('hidden');
+                superAdminDashboard.classList.add('hidden');
+                superAdminSection.classList.remove('hidden');
+            }
+
+            function showSuperAdminDashboard() {
+                homepageSection.classList.add('hidden');
+                authSection.classList.add('hidden');
+                dashboardSection.classList.add('hidden');
+                groupManagementSection.classList.add('hidden');
+                superAdminSection.classList.add('hidden');
+                superAdminDashboard.classList.remove('hidden');
+                loadAdminData();
+            }
+            
+            goToSignupBtn.addEventListener('click', () => showAuth('signup'));
+            goToLoginBtn.addEventListener('click', () => showAuth('login'));
+            goToAdminBtn.addEventListener('click', () => showSuperAdmin());
+            showLoginBtn.addEventListener('click', (e) => { e.preventDefault(); showAuth('login'); });
+            showSignupBtn.addEventListener('click', (e) => { e.preventDefault(); showAuth('signup'); });
+            backToHomeBtn.addEventListener('click', () => showHomepage());
+
+            forgotPasswordLink.addEventListener('click', (e) => { e.preventDefault(); passwordResetModal.classList.remove('hidden'); });
+            closeModalBtn.addEventListener('click', () => { passwordResetModal.classList.add('hidden'); });
+            closeAlertModalBtn.addEventListener('click', () => { customAlertModal.classList.add('hidden'); });
+            backToDashboardBtn.addEventListener('click', showDashboard);
+            closeMemberModalBtn.addEventListener('click', () => closeMemberModal());
+            if (memberSearch) {
+                memberSearch.addEventListener('input', () => renderMembers());
+            }
+            const loansDashboardBtn = document.getElementById('loans-dashboard-btn');
+            const exportReportBtn = document.getElementById('export-report-btn');
+            const shareoutBtn = document.getElementById('shareout-btn');
+            if (loansDashboardBtn) loansDashboardBtn.addEventListener('click', () => showLoansStatus());
+            if (exportReportBtn) exportReportBtn.addEventListener('click', () => exportReportDialog());
+            if (shareoutBtn) shareoutBtn.addEventListener('click', () => handleShareout());
+
+            // --- Authentication ---
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    showDashboard();
+                } else {
+                    showHomepage();
+                }
+            });
+
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const emailOrPhone = document.getElementById('signup-email-phone').value;
+                const password = document.getElementById('signup-password').value;
+                const email = getEmailFromInput(emailOrPhone);
+
+                if (!auth || !db) {
+                    showAlert('Application not properly initialized. Please refresh the page.');
+                    return;
+                }
+
+                // Client-side password strength validation
+                if (!isStrongPassword(password)) {
+                    showAlert('Password must be at least 8 characters and include letters, numbers, and special characters.');
+                    return;
+                }
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    // Ensure fresh auth token before first writes
+                    try { await user.getIdToken(true); } catch (_) {}
+
+                    // Try to store user's name in Firestore, but don't fail if it doesn't work
+                    try {
+                        await setDoc(doc(db, "users", user.uid), {
+                            name: name,
+                            email: user.email, // Store the (potentially dummy) email
+                            createdAt: serverTimestamp()
+                        });
+                    } catch (firestoreError) {
+                        console.warn('Could not save user data to database:', firestoreError);
+                        // Don't show error to user, just log it - authentication still worked
+                    }
+
+                    showAlert('Sign up successful! You can now create and manage VSLA groups.');
+                    signupForm.reset();
+                } catch (error) {
+                    console.error('Signup error:', error);
+                    let errorMessage = 'An error occurred during signup.';
+                    
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorMessage = 'This email is already registered. Please try logging in instead.';
+                    } else if (error.code === 'auth/weak-password') {
+                        errorMessage = 'Password is too weak. Include letters, numbers, and special characters (min 8).';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = 'Please enter a valid email address.';
+                    } else if (error.code === 'permission-denied') {
+                        errorMessage = 'Database access denied. Please contact support.';
+                    } else {
+                        errorMessage = `Error: ${error.message}`;
+                    }
+                    
+                    showAlert(errorMessage);
+                }
+            });
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const emailOrPhone = document.getElementById('login-email-phone').value;
+                const password = document.getElementById('login-password').value;
+                const email = getEmailFromInput(emailOrPhone);
+                
+                if (!auth) {
+                    showAlert('Application not properly initialized. Please refresh the page.');
+                    return;
+                }
+                
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    let errorMessage = 'An error occurred during login.';
+                    
+                    if (error.code === 'auth/user-not-found') {
+                        errorMessage = 'No account found with this email. Please sign up first.';
+                    } else if (error.code === 'auth/wrong-password') {
+                        errorMessage = 'Incorrect password. Please try again.';
+                    } else if (error.code === 'auth/invalid-credential') {
+                        errorMessage = 'Invalid credentials. Please check your email and password.';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = 'Please enter a valid email address.';
+                    } else if (error.code === 'auth/too-many-requests') {
+                        errorMessage = 'Too many failed attempts. Please try again later.';
+                    } else {
+                        errorMessage = `Error: ${error.message}`;
+                    }
+                    
+                    showAlert(errorMessage);
+                }
+            });
+
+            passwordResetForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const input = document.getElementById('reset-email').value;
+                const email = getEmailFromInput(input);
+                
+                if (!auth) {
+                    showAlert('Application not properly initialized. Please refresh the page.');
+                    return;
+                }
+                
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    showAlert('Password reset email sent! Check your inbox.');
+                    passwordResetModal.classList.add('hidden');
+                    passwordResetForm.reset();
+                } catch (error) {
+                    console.error('Password reset error:', error);
+                    let errorMessage = 'An error occurred while sending reset email.';
+                    
+                    if (error.code === 'auth/user-not-found') {
+                        errorMessage = 'No account found with this email address.';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = 'Please enter a valid email address.';
+                    } else {
+                        errorMessage = `Error: ${error.message}`;
+                    }
+                    
+                    showAlert(errorMessage);
+                }
+            });
+
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await signOut(auth);
+                    showHomepage(); // Go to homepage on logout
+                } catch (error) {
+                    showAlert(`Error: ${error.message}`);
+                }
+            });
+
+            // Super Admin login handler
+            superAdminForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('admin-username').value;
+                const password = document.getElementById('admin-password').value;
+                
+                // Simple hardcoded admin credentials (in production, use proper authentication)
+                if (username === 'admin' && password === 'vsla_admin_2024') {
+                    showSuperAdminDashboard();
+                    superAdminForm.reset();
+                } else {
+                    showAlert('Invalid admin credentials. Access denied.');
+                }
+            });
+
+            // Admin logout handler
+            adminLogoutBtn.addEventListener('click', () => {
+                showHomepage();
+            });
+
+            // Refresh admin data handler
+            refreshAdminDataBtn.addEventListener('click', () => {
+                loadAdminData();
+            });
+
+            // --- Firestore Logic ---
+            createGroupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const groupName = document.getElementById('group-name').value;
+                const interestRate = parseFloat(document.getElementById('group-interest-rate').value);
+                const loanDuration = parseInt(document.getElementById('group-loan-duration').value, 10);
+                const currency = document.getElementById('group-currency').value.trim();
+                const user = auth.currentUser;
+
+                if (!db) {
+                    showAlert('Database not properly initialized. Please refresh the page.');
+                    return;
+                }
+
+                if (groupName && user) {
+                    if (isNaN(interestRate) || interestRate < 0) {
+                        showAlert('Enter a valid monthly interest rate (0 or greater).');
+                        return;
+                    }
+                    if (isNaN(loanDuration) || loanDuration < 1) {
+                        showAlert('Enter a valid loan duration in whole months (>= 1).');
+                        return;
+                    }
+                    try {
+                        // Refresh token to avoid stale-credential permission issues
+                        try { await user.getIdToken(true); } catch (_) {}
+                        await addDoc(collection(db, 'groups'), {
+                            name: groupName,
+                            treasurerId: user.uid,
+                            interestRatePctPerMonth: interestRate,
+                            loanDurationMonths: loanDuration,
+                            currency: currency || 'GHS',
+                            createdAt: serverTimestamp()
+                        });
+                        createGroupForm.reset();
+                        showAlert('Group created successfully!');
+                        // Audit trail
+                        try { await logAudit(currentGroupId, 'group_created', { name: groupName, interestRate, loanDuration }); } catch (_) {}
+                    } catch (error) {
+                        console.error('Create group error:', error);
+                        if (error.code === 'permission-denied') {
+                            showAlert('Database access denied. Please contact support to enable database features.');
+                        } else {
+                            showAlert(`Error creating group: ${error.message}`);
+                        }
+                    }
+                } else if (!user) {
+                    showAlert('You must be logged in to create a group.');
+                } else {
+                    showAlert('Please enter a group name.');
+                }
+            });
+
+            addMemberForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('member-name').value;
+                const gender = document.getElementById('member-gender').value;
+                const phone = document.getElementById('member-phone').value;
+
+                if (!db) {
+                    showAlert('Database not properly initialized. Please refresh the page.');
+                    return;
+                }
+
+                if (name && gender && phone && currentGroupId) {
+                    try {
+                        const memberId = `M${Date.now()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+                        // Ensure fresh token
+                        try { await auth.currentUser.getIdToken(true); } catch (_) {}
+                        await addDoc(collection(db, `groups/${currentGroupId}/members`), {
+                            memberId: memberId,
+                            name: name,
+                            gender: gender,
+                            phone: phone,
+                            addedAt: serverTimestamp()
+                        });
+                        addMemberForm.reset();
+                        showAlert('Member added successfully!');
+                        // Audit trail
+                        try { await logAudit(currentGroupId, 'member_added', { memberId, name }); } catch (_) {}
+                        // Update group summary after adding member
+                        updateGroupSummary(currentGroupId);
+                        // Re-setup real-time listeners to include the new member
+                        setupRealTimeSummaryUpdates(currentGroupId);
+                    } catch (error) {
+                        console.error('Add member error:', error);
+                        if (error.code === 'permission-denied') {
+                            showAlert('Database access denied. Please contact support to enable database features.');
+                        } else {
+                            showAlert(`Error adding member: ${error.message}`);
+                        }
+                    }
+                } else {
+                    showAlert('Please fill in all member details.');
+                }
+            });
+
+            function fetchGroups(db, auth) {
+                const user = auth.currentUser;
+                if (!user) return;
+
+                const q = query(collection(db, 'groups'), where('treasurerId', '==', user.uid));
+                
+                if (groupsUnsubscribe) groupsUnsubscribe();
+                
+                groupsUnsubscribe = onSnapshot(q, (querySnapshot) => {
+                    groupsList.innerHTML = '';
+                    if (querySnapshot.empty) {
+                        groupsList.innerHTML = '<p class="text-gray-500">No groups found. Create one above!</p>';
+                        return;
+                    }
+                    querySnapshot.forEach((doc) => {
+                        const group = doc.data();
+                        const groupEl = document.createElement('div');
+                        groupEl.className = 'bg-gray-50 p-4 rounded-lg flex justify-between items-center cursor-pointer hover:bg-gray-100';
+                        groupEl.innerHTML = `
+                            <span class="font-medium text-blue-900">${group.name}</span>
+                            <button class="text-sm bg-blue-500 text-white px-3 py-1 rounded-md">Manage</button>
+                        `;
+                        groupEl.addEventListener('click', () => showGroupManagement(doc.id, group.name));
+                        groupsList.appendChild(groupEl);
+                    });
+                }, (error) => {
+                    showAlert(`Error fetching groups: ${error.message}`);
+                });
+            }
+
+            function fetchMembers(db, groupId) {
+                if (!groupId) return;
+
+                const membersCol = collection(db, `groups/${groupId}/members`);
+                
+                if (membersUnsubscribe) membersUnsubscribe();
+
+                membersUnsubscribe = onSnapshot(membersCol, (querySnapshot) => {
+                    cachedMembers = [];
+                    querySnapshot.forEach((memberDoc) => {
+                        const data = memberDoc.data();
+                        cachedMembers.push({ id: memberDoc.id, ...data });
+                    });
+                    renderMembers();
+                }, (error) => {
+                    showAlert(`Error fetching members: ${error.message}`);
+                });
+            }
+
+            function renderMembers() {
+                const term = (memberSearch?.value || '').trim().toLowerCase();
+                    membersList.innerHTML = '';
+                if (!cachedMembers.length) {
+                        membersList.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">No members yet. Add one above.</td></tr>';
+                        return;
+                    }
+                const filtered = term
+                    ? cachedMembers.filter(m => (
+                        (m.memberId || '').toLowerCase().includes(term) ||
+                        (m.name || '').toLowerCase().includes(term) ||
+                        (m.phone || '').toLowerCase().includes(term)
+                    ))
+                    : cachedMembers;
+                filtered.forEach(member => {
+                        const row = document.createElement('tr');
+                        row.className = 'border-b hover:bg-blue-50';
+                        row.innerHTML = `
+                            <td class="py-2 px-4">${member.memberId}</td>
+                            <td class="py-2 px-4">${member.name}</td>
+                            <td class="py-2 px-4">${member.gender}</td>
+                            <td class="py-2 px-4">${member.phone}</td>
+                        `;
+                    row.addEventListener('click', () => openMemberModal(member.id, member.name));
+                        membersList.appendChild(row);
+                    });
+            }
+
+            function openMemberModal(memberDocId, memberName) {
+                currentMemberDocId = memberDocId;
+                currentMemberName = memberName;
+                memberModalTitle.textContent = `${memberName}`;
+                if (memberSavingsList) memberSavingsList.innerHTML = '';
+                if (memberLoansList) memberLoansList.innerHTML = '';
+                // Reset arrays when opening modal
+                currentMemberLoans = [];
+                currentMemberRepayments = [];
+                memberModal.classList.remove('hidden');
+                memberModal.classList.add('flex');
+                subscribeToMemberActivity();
+            }
+
+            function closeMemberModal() {
+                memberModal.classList.add('hidden');
+                memberModal.classList.remove('flex');
+                currentMemberDocId = null;
+                currentMemberName = '';
+                if (memberSavingsUnsubscribe) memberSavingsUnsubscribe();
+                if (memberLoansUnsubscribe) memberLoansUnsubscribe();
+                if (memberRepaymentsUnsubscribe) memberRepaymentsUnsubscribe();
+                if (memberDuesUnsubscribe) memberDuesUnsubscribe();
+            }
+
+            function subscribeToMemberActivity() {
+                if (!currentGroupId || !currentMemberDocId) return;
+                // Savings stream
+                if (memberSavingsUnsubscribe) memberSavingsUnsubscribe();
+                memberSavingsUnsubscribe = onSnapshot(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/savings`), (qs) => {
+                    renderSavings(qs);
+                });
+                // Loans stream
+                if (memberLoansUnsubscribe) memberLoansUnsubscribe();
+                memberLoansUnsubscribe = onSnapshot(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/loans`), (qs) => {
+                    renderLoans(qs);
+                });
+                if (memberRepaymentsUnsubscribe) memberRepaymentsUnsubscribe();
+                memberRepaymentsUnsubscribe = onSnapshot(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/repayments`), (qs) => {
+                    renderRepayments(qs);
+                });
+                // Dues stream
+                if (memberDuesUnsubscribe) memberDuesUnsubscribe();
+                memberDuesUnsubscribe = onSnapshot(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/dues`), (qs) => {
+                    renderDues(qs);
+                });
+            }
+
+            function renderActivityList(container, items) {
+                if (!container) return;
+                container.innerHTML = '';
+                items.forEach(html => container.insertAdjacentHTML('afterbegin', html));
+            }
+
+            function renderSavings(qs) {
+                const currency = currentGroupConfig.currency || '';
+                const items = [];
+                qs.forEach(doc => {
+                    const d = doc.data();
+                    const amount = Number(d.amount||0).toFixed(2);
+                    const note = d.note ? ` - ${d.note}` : '';
+                    const date = d.createdAt?.toDate ? d.createdAt.toDate().toLocaleDateString() : 'Unknown date';
+                    items.push(`<div class="py-2 text-sm border-b border-gray-100">Saving: ${currency} ${amount}${note} <span class="text-gray-500 text-xs">(${date})</span></div>`);
+                });
+                if (memberSavingsList) {
+                    memberSavingsList.innerHTML = items.reverse().join('');
+                }
+            }
+
+            function renderDues(qs) {
+                const currency = currentGroupConfig.currency || '';
+                const items = [];
+                qs.forEach(doc => {
+                    const d = doc.data();
+                    const amount = Number(d.amount||0).toFixed(2);
+                    const note = d.note ? ` - ${d.note}` : '';
+                    const date = d.createdAt?.toDate ? d.createdAt.toDate().toLocaleDateString() : 'Unknown date';
+                    items.push(`<div class="py-2 text-sm border-b border-gray-100">Dues: ${currency} ${amount}${note} <span class="text-gray-500 text-xs">(${date})</span></div>`);
+                });
+                // Append dues under savings column
+                if (memberSavingsList && items.length) {
+                    memberSavingsList.insertAdjacentHTML('beforeend', items.reverse().join(''));
+                }
+            }
+
+            function renderLoans(qs) {
+                const currency = currentGroupConfig.currency || '';
+                currentMemberLoans = [];
+                qs.forEach(doc => {
+                    const d = doc.data();
+                    currentMemberLoans.push(d);
+                });
+                renderLoansAndRepayments();
+            }
+
+            function renderRepayments(qs) {
+                const currency = currentGroupConfig.currency || '';
+                currentMemberRepayments = [];
+                qs.forEach(doc => {
+                    const d = doc.data();
+                    currentMemberRepayments.push(d);
+                });
+                renderLoansAndRepayments();
+            }
+
+            function renderLoansAndRepayments() {
+                if (!memberLoansList) return;
+                const currency = currentGroupConfig.currency || '';
+                let totalPrincipal = 0;
+                let totalAccruedInterest = 0;
+                const r = (currentGroupConfig.interestRatePctPerMonth||0)/100;
+                const duration = currentGroupConfig.loanDurationMonths||0;
+                
+                // Calculate interest for each loan individually
+                const loanDetails = [];
+                currentMemberLoans.forEach(l => {
+                    const principal = Number(l.amount||0);
+                    totalPrincipal += principal;
+                    const created = l.createdAt?.toDate ? l.createdAt.toDate() : new Date();
+                    const months = Math.min(duration, monthsSince(created));
+                    const interest = principal * r * Math.max(months,0);
+                    totalAccruedInterest += interest;
+                    
+                    loanDetails.push({
+                        principal: principal,
+                        interest: interest,
+                        total: principal + interest,
+                        months: months,
+                        created: created,
+                        data: l
+                    });
+                });
+                
+                let totalRepaid = 0;
+                currentMemberRepayments.forEach(rp => { totalRepaid += Number(rp.amount||0); });
+                const outstanding = Math.max(0, (totalPrincipal + totalAccruedInterest) - totalRepaid);
+
+                const parts = [];
+                
+                // Add detailed summary if there are loans
+                if (currentMemberLoans.length > 0) {
+                    const interestRate = (currentGroupConfig.interestRatePctPerMonth||0).toFixed(2);
+                    parts.push(`<div class="py-2 text-sm font-semibold bg-blue-50 p-3 rounded mb-3 border-l-4 border-blue-400">`);
+                    parts.push(`<div class="font-bold text-blue-800 mb-1">Loan Summary (${interestRate}% monthly interest)</div>`);
+                    parts.push(`<div class="text-xs space-y-1">`);
+                    parts.push(`<div>Principal: ${currency} ${totalPrincipal.toFixed(2)}</div>`);
+                    parts.push(`<div>Accrued Interest: ${currency} ${totalAccruedInterest.toFixed(2)}</div>`);
+                    parts.push(`<div>Total Owed: ${currency} ${(totalPrincipal + totalAccruedInterest).toFixed(2)}</div>`);
+                    parts.push(`<div>Total Repaid: ${currency} ${totalRepaid.toFixed(2)}</div>`);
+                    parts.push(`<div class="font-semibold text-red-600">Outstanding: ${currency} ${outstanding.toFixed(2)}</div>`);
+                    parts.push(`</div></div>`);
+                }
+                
+                // Add individual loans with interest breakdown
+                loanDetails.forEach(loan => {
+                    const amount = loan.principal.toFixed(2);
+                    const interest = loan.interest.toFixed(2);
+                    const total = loan.total.toFixed(2);
+                    const note = loan.data.note ? ` - ${loan.data.note}` : '';
+                    const date = loan.created.toLocaleDateString();
+                    const months = loan.months;
+                    let extraClass = '';
+                    const status = computeLoanStatus(loan.data);
+                    if (status === 'due') extraClass = ' text-yellow-600';
+                    if (status === 'overdue') extraClass = ' text-red-600';
+                    
+                    parts.push(`<div class="py-2 text-sm border-b border-gray-100${extraClass}">`);
+                    parts.push(`<div class="font-medium">Loan: ${currency} ${amount}${note}</div>`);
+                    parts.push(`<div class="text-xs text-gray-600 ml-2">`);
+                    parts.push(`Interest (${months} months): ${currency} ${interest} | Total: ${currency} ${total}`);
+                    parts.push(`<span class="text-gray-500">(${date})</span>`);
+                    parts.push(`</div></div>`);
+                });
+                
+                // Add individual repayments with interest allocation
+                currentMemberRepayments.forEach(d => {
+                    const amount = Number(d.amount||0).toFixed(2);
+                    const note = d.note ? ` - ${d.note}` : '';
+                    const date = d.createdAt?.toDate ? d.createdAt.toDate().toLocaleDateString() : 'Unknown date';
+                    
+                    // Calculate how much of this repayment goes to interest vs principal
+                    const remainingInterest = Math.max(0, totalAccruedInterest - totalRepaid + Number(d.amount||0));
+                    const interestPortion = Math.min(Number(d.amount||0), remainingInterest);
+                    const principalPortion = Number(d.amount||0) - interestPortion;
+                    
+                    parts.push(`<div class="py-2 text-sm border-b border-gray-100 bg-green-50">`);
+                    parts.push(`<div class="font-medium text-green-700">Repayment: ${currency} ${amount}${note}</div>`);
+                    parts.push(`<div class="text-xs text-gray-600 ml-2">`);
+                    if (interestPortion > 0) parts.push(`Interest: ${currency} ${interestPortion.toFixed(2)}`);
+                    if (interestPortion > 0 && principalPortion > 0) parts.push(` | `);
+                    if (principalPortion > 0) parts.push(`Principal: ${currency} ${principalPortion.toFixed(2)}`);
+                    parts.push(`<span class="text-gray-500"> (${date})</span>`);
+                    parts.push(`</div></div>`);
+                });
+                
+                // Show message if no records
+                if (currentMemberLoans.length === 0 && currentMemberRepayments.length === 0) {
+                    parts.push(`<div class="py-2 text-sm text-gray-500">No loans or repayments recorded yet.</div>`);
+                }
+                
+                memberLoansList.innerHTML = parts.join('');
+            }
+
+            function loadGroupConfig(groupId) {
+                if (!groupId) return;
+                const grpRef = doc(db, 'groups', groupId);
+                onSnapshot(grpRef, (snap) => {
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        currentGroupConfig = {
+                            interestRatePctPerMonth: Number(data.interestRatePctPerMonth || 0),
+                            loanDurationMonths: parseInt(data.loanDurationMonths || 0, 10),
+                            currency: data.currency || 'GHS'
+                        };
+                    }
+                });
+            }
+
+            function computeLoanStatus(loanDocData) {
+                // Returns 'ok' | 'due' | 'overdue'
+                const duration = currentGroupConfig.loanDurationMonths || 0;
+                const createdAt = loanDocData.createdAt?.toDate ? loanDocData.createdAt.toDate() : new Date();
+                const now = new Date();
+                // Months since loan creation
+                const monthsElapsed = (now.getFullYear() - createdAt.getFullYear()) * 12 + (now.getMonth() - createdAt.getMonth());
+                // If any repayments make balance zero, treat as ok
+                if (loanDocData.totalRepaid && Number(loanDocData.totalRepaid) >= Number(loanDocData.amount||0)) {
+                    return 'ok';
+                }
+                if (duration > 0 && monthsElapsed >= duration) {
+                    return 'overdue';
+                }
+                if (monthsElapsed >= 1) {
+                    return 'due';
+                }
+                return 'ok';
+            }
+
+            // Submit handlers for savings and loans
+            savingsForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentGroupId || !currentMemberDocId) return;
+                const amountStr = document.getElementById('savings-amount').value;
+                const note = document.getElementById('savings-note').value;
+                const amount = parseFloat(amountStr);
+                if (isNaN(amount) || amount <= 0) {
+                    showAlert('Enter a valid savings amount greater than 0.');
+                    return;
+                }
+                try {
+                    await addDoc(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/savings`), {
+                        amount,
+                        note: note || '',
+                        groupId: currentGroupId,
+                        memberId: currentMemberDocId,
+                        createdAt: serverTimestamp()
+                    });
+                    savingsForm.reset();
+                    try { await logAudit(currentGroupId, 'saving_recorded', { memberId: currentMemberDocId, amount }); } catch (_) {}
+                    // Update group summary after adding savings
+                    updateGroupSummary(currentGroupId);
+                } catch (error) {
+                    console.error('Add savings error:', error);
+                    showAlert('Could not record savings.');
+                }
+            });
+
+            loansForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentGroupId || !currentMemberDocId) return;
+                const amountStr = document.getElementById('loan-amount').value;
+                const note = document.getElementById('loan-note').value;
+                const amount = parseFloat(amountStr);
+                if (isNaN(amount) || amount <= 0) {
+                    showAlert('Enter a valid loan amount greater than 0.');
+                    return;
+                }
+                try {
+                    await addDoc(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/loans`), {
+                        amount,
+                        note: note || '',
+                        groupId: currentGroupId,
+                        memberId: currentMemberDocId,
+                        createdAt: serverTimestamp()
+                    });
+                    loansForm.reset();
+                    try { await logAudit(currentGroupId, 'loan_recorded', { memberId: currentMemberDocId, amount }); } catch (_) {}
+                    // Update group summary after adding loan
+                    updateGroupSummary(currentGroupId);
+                } catch (error) {
+                    console.error('Add loan error:', error);
+                    showAlert('Could not record loan.');
+                }
+            });
+
+            // Repayment handler
+            const repaymentForm = document.getElementById('repayment-form');
+            if (repaymentForm) {
+                repaymentForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (!currentGroupId || !currentMemberDocId) return;
+                    const amountStr = document.getElementById('repayment-amount').value;
+                    const note = document.getElementById('repayment-note').value;
+                    const amount = parseFloat(amountStr);
+                    if (isNaN(amount) || amount <= 0) {
+                        showAlert('Enter a valid repayment amount greater than 0.');
+                        return;
+                    }
+                    try {
+                        await addDoc(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/repayments`), {
+                            amount,
+                            note: note || '',
+                            groupId: currentGroupId,
+                            memberId: currentMemberDocId,
+                            createdAt: serverTimestamp()
+                        });
+                        repaymentForm.reset();
+                        try { await logAudit(currentGroupId, 'repayment_recorded', { memberId: currentMemberDocId, amount }); } catch (_) {}
+                        // Update group summary after adding repayment
+                        updateGroupSummary(currentGroupId);
+                    } catch (error) {
+                        console.error('Add repayment error:', error);
+                        showAlert('Could not record repayment.');
+                    }
+                });
+            }
+
+            // Dues handler
+            const duesForm = document.getElementById('dues-form');
+            if (duesForm) {
+                duesForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (!currentGroupId || !currentMemberDocId) return;
+                    const amountStr = document.getElementById('dues-amount').value;
+                    const note = document.getElementById('dues-note').value;
+                    const amount = parseFloat(amountStr);
+                    if (isNaN(amount) || amount <= 0) {
+                        showAlert('Enter a valid dues amount greater than 0.');
+                        return;
+                    }
+                    try {
+                        await addDoc(collection(db, `groups/${currentGroupId}/members/${currentMemberDocId}/dues`), {
+                            amount,
+                            note: note || '',
+                            groupId: currentGroupId,
+                            memberId: currentMemberDocId,
+                            createdAt: serverTimestamp()
+                        });
+                        duesForm.reset();
+                        try { await logAudit(currentGroupId, 'dues_recorded', { memberId: currentMemberDocId, amount }); } catch (_) {}
+                        // Update group summary after adding dues
+                        updateGroupSummary(currentGroupId);
+                    } catch (error) {
+                        console.error('Add dues error:', error);
+                        showAlert('Could not record dues.');
+                    }
+                });
+            }
+
+            async function logAudit(groupId, action, details) {
+                if (!groupId) return;
+                try {
+                    await addDoc(collection(db, `groups/${groupId}/audit`), {
+                        action,
+                        details: details || {},
+                        actorUid: auth?.currentUser?.uid || null,
+                        createdAt: serverTimestamp()
+                    });
+                } catch (_) {}
+            }
+
+            async function exportReportDialog() {
+                if (!currentGroupId) { showAlert('Open a group first.'); return; }
+                try {
+                    const { jsPDF } = await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.es.min.js');
+                    const docPdf = new jsPDF();
+                    docPdf.setFontSize(14);
+                    docPdf.text(`VSLA Report - Group: ${currentGroupNameEl.textContent}`, 10, 15);
+                    docPdf.setFontSize(11);
+                    const [sRes, lRes] = await Promise.all([
+                        getDocs(query(collectionGroup(db, 'savings'))),
+                        getDocs(query(collectionGroup(db, 'loans')))
+                    ]);
+                    const now = new Date();
+                    const thisMonth = now.getMonth();
+                    const thisYear = now.getFullYear();
+                    let mSavings=0, mLoans=0, ySavings=0, yLoans=0;
+                    sRes.forEach(d=>{ const x=d.data(); if (x.groupId!==currentGroupId) return; const dt=x.createdAt?.toDate?.()||new Date(); if (dt.getFullYear()===thisYear) { ySavings+=Number(x.amount||0); if (dt.getMonth()===thisMonth) mSavings+=Number(x.amount||0);} });
+                    lRes.forEach(d=>{ const x=d.data(); if (x.groupId!==currentGroupId) return; const dt=x.createdAt?.toDate?.()||new Date(); if (dt.getFullYear()===thisYear) { yLoans+=Number(x.amount||0); if (dt.getMonth()===thisMonth) mLoans+=Number(x.amount||0);} });
+                    let y=25;
+                    docPdf.text(`Monthly Savings: GHS ${mSavings.toFixed(2)}`, 10, y); y+=7;
+                    docPdf.text(`Monthly Loans: GHS ${mLoans.toFixed(2)}`, 10, y); y+=7;
+                    docPdf.text(`Annual Savings: GHS ${ySavings.toFixed(2)}`, 10, y); y+=7;
+                    docPdf.text(`Annual Loans: GHS ${yLoans.toFixed(2)}`, 10, y);
+                    docPdf.save('vsla-report.pdf');
+                } catch (e) {
+                    showAlert('PDF export failed.');
+                }
+            }
+
+            async function showLoansStatus() {
+                if (!currentGroupId) { showAlert('Open a group first.'); return; }
+                try {
+                    const [lRes, rRes] = await Promise.all([
+                        getDocs(query(collectionGroup(db, 'loans'))),
+                        getDocs(query(collectionGroup(db, 'repayments')))
+                    ]);
+                    
+                    const loansByMember = new Map();
+                    const repaymentsByMember = new Map();
+                    
+                    lRes.forEach(d => { 
+                        const x=d.data(); 
+                        if (x.groupId!==currentGroupId) return; 
+                        const arr=loansByMember.get(x.memberId)||[]; 
+                        arr.push(x); 
+                        loansByMember.set(x.memberId, arr);
+                    });
+                    
+                    rRes.forEach(d => { 
+                        const x=d.data(); 
+                        if (x.groupId!==currentGroupId) return; 
+                        const arr=repaymentsByMember.get(x.memberId)||[]; 
+                        arr.push(x); 
+                        repaymentsByMember.set(x.memberId, arr);
+                    });
+                    
+                    const items = [];
+                    const r = (currentGroupConfig.interestRatePctPerMonth||0)/100;
+                    const duration = currentGroupConfig.loanDurationMonths||0;
+                    const currency = currentGroupConfig.currency || 'GHS';
+                    
+                    cachedMembers.forEach(m => {
+                        const loans = loansByMember.get(m.id)||[];
+                        const repayments = repaymentsByMember.get(m.id)||[];
+                        if (!loans.length) return;
+                        
+                        let totalPrincipal = 0;
+                        let totalInterest = 0;
+                        let totalRepaid = 0;
+                        
+                        loans.forEach(loan => {
+                            const principal = Number(loan.amount||0);
+                            totalPrincipal += principal;
+                            const created = loan.createdAt?.toDate ? loan.createdAt.toDate() : new Date();
+                            const months = Math.min(duration, monthsSince(created));
+                            totalInterest += principal * r * Math.max(months,0);
+                        });
+                        
+                        repayments.forEach(rep => {
+                            totalRepaid += Number(rep.amount||0);
+                        });
+                        
+                        const outstanding = Math.max(0, (totalPrincipal + totalInterest) - totalRepaid);
+                        const status = outstanding > 0 ? (outstanding > totalPrincipal ? 'overdue' : 'due') : 'ok';
+                        
+                        items.push({ 
+                            member: m, 
+                            status, 
+                            principal: totalPrincipal,
+                            interest: totalInterest,
+                            repaid: totalRepaid,
+                            outstanding: outstanding
+                        });
+                    });
+                    
+                    const order = { overdue:0, due:1, ok:2 };
+                    items.sort((a,b)=> order[a.status]-order[b.status]);
+                    
+                    const lines = items.map(i => {
+                        const statusColor = i.status === 'overdue' ? '🔴' : i.status === 'due' ? '🟡' : '🟢';
+                        return `${statusColor} ${i.member.name} - ${i.status.toUpperCase()}\n   Principal: ${currency} ${i.principal.toFixed(2)} | Interest: ${currency} ${i.interest.toFixed(2)} | Outstanding: ${currency} ${i.outstanding.toFixed(2)}`;
+                    }).join('\n\n');
+                    
+                    showAlert(lines || 'No outstanding loans.');
+                } catch(e) {
+                    showAlert('Could not load loans status.');
+                }
+            }
+
+            async function handleShareout() {
+                if (!currentGroupId) { showAlert('Open a group first.'); return; }
+                try {
+                    const [sRes, lRes] = await Promise.all([
+                        getDocs(query(collectionGroup(db, 'savings'))),
+                        getDocs(query(collectionGroup(db, 'loans')))
+                    ]);
+                    const savingsByMember = new Map();
+                    let totalSavings = 0;
+                    sRes.forEach(d=>{ const x=d.data(); if (x.groupId!==currentGroupId) return; const key=x.memberId; const amt=Number(x.amount||0); totalSavings+=amt; savingsByMember.set(key,(savingsByMember.get(key)||0)+amt); });
+                    const r = (currentGroupConfig.interestRatePctPerMonth||0)/100;
+                    const duration = currentGroupConfig.loanDurationMonths||0;
+                    let totalInterest = 0;
+                    lRes.forEach(d=>{ const x=d.data(); if (x.groupId!==currentGroupId) return; const created = x.createdAt?.toDate?.()||new Date(); const months = Math.min(duration, monthsSince(created)); totalInterest += Number(x.amount||0) * r * Math.max(months,0); });
+                    if (totalSavings<=0) { showAlert('No savings to distribute.'); return; }
+                    const distribution = [];
+                    cachedMembers.forEach(m=>{
+                        const s = savingsByMember.get(m.id)||0;
+                        const share = totalInterest * (s/totalSavings);
+                        if (share>0) distribution.push({ memberId:m.id, name:m.name, share });
+                    });
+                    const distDoc = await addDoc(collection(db, `groups/${currentGroupId}/distributions`), {
+                        createdAt: serverTimestamp(),
+                        totalSavings,
+                        totalInterest,
+                        ratePerMonth: currentGroupConfig.interestRatePctPerMonth||0,
+                        durationMonths: duration,
+                        items: distribution
+                    });
+                    showAlert(`Share-out recorded with ${distribution.length} recipients. Distribution ID: ${distDoc.id}`);
+                    try { await logAudit(currentGroupId, 'shareout_recorded', { distributionId: distDoc.id }); } catch(_){}
+                } catch (e) {
+                    console.error(e);
+                    showAlert('Share-out failed.');
+                }
+            }
+
+            function monthsSince(startDate) {
+                const now = new Date();
+                return (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+            }
+
+            // Set up real-time listeners for group summary updates
+            function setupRealTimeSummaryUpdates(groupId) {
+                if (!groupId) return;
+                
+                // Get all members and set up listeners for each member's subcollections
+                const membersQuery = query(collection(db, `groups/${groupId}/members`));
+                getDocs(membersQuery).then(membersSnapshot => {
+                    membersSnapshot.forEach(memberDoc => {
+                        const memberId = memberDoc.id;
+                        
+                        // Set up listeners for each member's activity collections
+                        const collections = ['savings', 'loans', 'repayments', 'dues'];
+                        
+                        collections.forEach(collectionName => {
+                            const q = query(collection(db, `groups/${groupId}/members/${memberId}/${collectionName}`));
+                            onSnapshot(q, (snapshot) => {
+                                // Check if there are any changes
+                                if (snapshot.docChanges().length > 0) {
+                                    console.log(`Real-time update triggered by ${collectionName} changes for member ${memberId}`);
+                                    updateGroupSummary(groupId);
+                                }
+                            }, (error) => {
+                                console.warn(`Real-time listener error for ${collectionName} (member ${memberId}):`, error);
+                            });
+                        });
+                    });
+                }).catch(error => {
+                    console.warn('Error setting up real-time listeners:', error);
+                });
+            }
+
+            async function updateGroupSummary(groupId) {
+                try {
+                    if (!groupId) {
+                        console.warn('No groupId provided to updateGroupSummary');
+                        return;
+                    }
+                    
+                    // Get all members for this group first
+                    const membersQuery = query(collection(db, `groups/${groupId}/members`));
+                    const membersSnapshot = await getDocs(membersQuery);
+                    
+                    if (membersSnapshot.empty) {
+                        console.log('No members found for group:', groupId);
+                        // Reset all values to 0
+                        resetGroupSummary();
+                        return;
+                    }
+                    
+                    // Initialize counters
+                    let totalSavings = 0;
+                    let totalDues = 0;
+                    let totalLoans = 0;
+                    let totalRepayments = 0;
+                    let totalAccruedInterest = 0;
+                    let membersWithLoans = new Set();
+                    
+                    // Interest calculation parameters
+                    const r = (currentGroupConfig.interestRatePctPerMonth||0)/100;
+                    const duration = currentGroupConfig.loanDurationMonths||0;
+                    const currency = currentGroupConfig.currency || 'GHS';
+                    
+                    // Process each member's data
+                    const memberPromises = [];
+                    membersSnapshot.forEach(memberDoc => {
+                        const memberId = memberDoc.id;
+                        const memberData = memberDoc.data();
+                        
+                        // Create promises to fetch each member's activity data
+                        const savingsPromise = getDocs(collection(db, `groups/${groupId}/members/${memberId}/savings`));
+                        const loansPromise = getDocs(collection(db, `groups/${groupId}/members/${memberId}/loans`));
+                        const repaymentsPromise = getDocs(collection(db, `groups/${groupId}/members/${memberId}/repayments`));
+                        const duesPromise = getDocs(collection(db, `groups/${groupId}/members/${memberId}/dues`));
+                        
+                        memberPromises.push(
+                            Promise.all([savingsPromise, loansPromise, repaymentsPromise, duesPromise])
+                                .then(([savingsSnap, loansSnap, repaymentsSnap, duesSnap]) => {
+                                    // Process savings
+                                    savingsSnap.forEach(doc => {
+                                        const data = doc.data();
+                                        totalSavings += Number(data.amount || 0);
+                                    });
+                                    
+                                    // Process dues
+                                    duesSnap.forEach(doc => {
+                                        const data = doc.data();
+                                        totalDues += Number(data.amount || 0);
+                                    });
+                                    
+                                    // Process loans
+                                    loansSnap.forEach(doc => {
+                                        const data = doc.data();
+                                        const loanAmount = Number(data.amount || 0);
+                                        totalLoans += loanAmount;
+                                        membersWithLoans.add(memberId);
+                                        
+                                        // Calculate interest
+                                        const created = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
+                                        const months = Math.min(duration, monthsSince(created));
+                                        totalAccruedInterest += loanAmount * r * Math.max(months, 0);
+                                    });
+                                    
+                                    // Process repayments
+                                    repaymentsSnap.forEach(doc => {
+                                        const data = doc.data();
+                                        totalRepayments += Number(data.amount || 0);
+                                    });
+                                })
+                        );
+                    });
+                    
+                    // Wait for all member data to be processed
+                    await Promise.all(memberPromises);
+                    
+                    // Calculate available cash (savings + dues + repayments - loans given out)
+                    const availableCash = (totalSavings + totalDues + totalRepayments) - totalLoans;
+                    
+                    // Update UI elements
+                    const el1 = document.getElementById('total-savings');
+                    const el2 = document.getElementById('total-loans');
+                    const el3 = document.getElementById('members-with-loans');
+                    const el4 = document.getElementById('total-repayments');
+                    const el5 = document.getElementById('total-cash');
+                    const elRate = document.getElementById('summary-rate');
+                    const elDur = document.getElementById('summary-duration');
+                    const elCur = document.getElementById('summary-currency');
+                    const elInterest = document.getElementById('total-interest');
+                    
+                    if (el1) el1.textContent = `GH₵ ${(totalSavings + totalDues).toFixed(2)}`;
+                    if (el2) el2.textContent = `GH₵ ${totalLoans.toFixed(2)}`;
+                    if (el4) el4.textContent = `${currency} ${totalRepayments.toFixed(2)}`;
+                    if (el5) el5.textContent = `GH₵ ${Math.max(0, availableCash).toFixed(2)}`;
+                    if (el3) el3.textContent = `${membersWithLoans.size}`;
+                    if (elRate) elRate.textContent = `${(currentGroupConfig.interestRatePctPerMonth||0).toFixed(2)}%`;
+                    if (elDur) elDur.textContent = `${currentGroupConfig.loanDurationMonths||0}`;
+                    if (elCur) elCur.textContent = currency;
+                    if (elInterest) elInterest.textContent = `${currency} ${totalAccruedInterest.toFixed(2)}`;
+                    
+                    // Debug logging
+                    console.log('Group Summary Update:', {
+                        groupId,
+                        membersCount: membersSnapshot.size,
+                        totalSavings: totalSavings + totalDues,
+                        totalLoans,
+                        totalRepayments,
+                        totalAccruedInterest,
+                        availableCash: Math.max(0, availableCash),
+                        membersWithLoans: membersWithLoans.size,
+                        breakdown: {
+                            savings: totalSavings,
+                            dues: totalDues,
+                            loans: totalLoans,
+                            repayments: totalRepayments
+                        }
+                    });
+                    
+                } catch (e) {
+                    console.warn('Summary update failed', e);
+                    // Reset to 0 values on error
+                    resetGroupSummary();
+                }
+            }
+            
+            function resetGroupSummary() {
+                const currency = currentGroupConfig.currency || 'GHS';
+                const el1 = document.getElementById('total-savings');
+                const el2 = document.getElementById('total-loans');
+                const el3 = document.getElementById('members-with-loans');
+                const el4 = document.getElementById('total-repayments');
+                const el5 = document.getElementById('total-cash');
+                const elRate = document.getElementById('summary-rate');
+                const elDur = document.getElementById('summary-duration');
+                const elCur = document.getElementById('summary-currency');
+                const elInterest = document.getElementById('total-interest');
+                
+                if (el1) el1.textContent = `GH₵ 0.00`;
+                if (el2) el2.textContent = `GH₵ 0.00`;
+                if (el4) el4.textContent = `${currency} 0.00`;
+                if (el5) el5.textContent = `GH₵ 0.00`;
+                if (el3) el3.textContent = '0';
+                if (elRate) elRate.textContent = `${(currentGroupConfig.interestRatePctPerMonth||0).toFixed(2)}%`;
+                if (elDur) elDur.textContent = `${currentGroupConfig.loanDurationMonths||0}`;
+                if (elCur) elCur.textContent = currency;
+                if (elInterest) elInterest.textContent = `${currency} 0.00`;
+            }
+
+            // Super Admin Functions
+            async function loadAdminData() {
+                try {
+                    if (!db) {
+                        showAlert('Database not properly initialized.');
+                        return;
+                    }
+
+                    // Get all groups
+                    const groupsSnapshot = await getDocs(collection(db, 'groups'));
+                    const groups = [];
+                    let totalMembers = 0;
+                    let activeUsers = 0;
+                    const sevenDaysAgo = new Date();
+                    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+                    // Process each group
+                    for (const groupDoc of groupsSnapshot.docs) {
+                        const groupData = groupDoc.data();
+                        const groupId = groupDoc.id;
+                        
+                        // Get member count for this group
+                        const membersSnapshot = await getDocs(collection(db, `groups/${groupId}/members`));
+                        const memberCount = membersSnapshot.size;
+                        totalMembers += memberCount;
+
+                        // Calculate group totals
+                        let groupSavings = 0;
+                        let groupLoans = 0;
+                        let lastActivity = null;
+
+                        // Get savings and loans data
+                        for (const memberDoc of membersSnapshot.docs) {
+                            const memberId = memberDoc.id;
+                            
+                            // Get savings
+                            const savingsSnapshot = await getDocs(collection(db, `groups/${groupId}/members/${memberId}/savings`));
+                            savingsSnapshot.forEach(doc => {
+                                groupSavings += Number(doc.data().amount || 0);
+                                const createdAt = doc.data().createdAt?.toDate?.() || new Date();
+                                if (!lastActivity || createdAt > lastActivity) {
+                                    lastActivity = createdAt;
+                                }
+                                if (createdAt > sevenDaysAgo) {
+                                    activeUsers++;
+                                }
+                            });
+
+                            // Get loans
+                            const loansSnapshot = await getDocs(collection(db, `groups/${groupId}/members/${memberId}/loans`));
+                            loansSnapshot.forEach(doc => {
+                                groupLoans += Number(doc.data().amount || 0);
+                                const createdAt = doc.data().createdAt?.toDate?.() || new Date();
+                                if (!lastActivity || createdAt > lastActivity) {
+                                    lastActivity = createdAt;
+                                }
+                                if (createdAt > sevenDaysAgo) {
+                                    activeUsers++;
+                                }
+                            });
+                        }
+
+                        groups.push({
+                            id: groupId,
+                            name: groupData.name,
+                            memberCount: memberCount,
+                            totalSavings: groupSavings,
+                            totalLoans: groupLoans,
+                            lastActivity: lastActivity || groupData.createdAt?.toDate?.() || new Date(),
+                            createdAt: groupData.createdAt?.toDate?.() || new Date()
+                        });
+                    }
+
+                    // Update overview cards
+                    const totalGroupsEl = document.getElementById('total-groups');
+                    const totalMembersEl = document.getElementById('total-members');
+                    const activeUsersEl = document.getElementById('active-users');
+
+                    if (totalGroupsEl) totalGroupsEl.textContent = groups.length;
+                    if (totalMembersEl) totalMembersEl.textContent = totalMembers;
+                    if (activeUsersEl) activeUsersEl.textContent = activeUsers;
+
+                    // Update groups table
+                    renderAdminGroupsTable(groups);
+
+                } catch (error) {
+                    console.error('Error loading admin data:', error);
+                    showAlert('Failed to load admin data. Please try again.');
+                }
+            }
+
+            function renderAdminGroupsTable(groups) {
+                const tableBody = document.getElementById('admin-groups-list');
+                if (!tableBody) return;
+
+                if (groups.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-500">No groups found.</td></tr>';
+                    return;
+                }
+
+                // Sort groups based on filter
+                const filter = document.getElementById('group-filter')?.value || 'all';
+                const searchTerm = document.getElementById('group-search')?.value?.toLowerCase() || '';
+
+                let sortedGroups = [...groups];
+
+                if (filter === 'most-active') {
+                    sortedGroups.sort((a, b) => b.lastActivity - a.lastActivity);
+                } else if (filter === 'newest') {
+                    sortedGroups.sort((a, b) => b.createdAt - a.createdAt);
+                }
+
+                // Filter by search term
+                if (searchTerm) {
+                    sortedGroups = sortedGroups.filter(group => 
+                        group.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                tableBody.innerHTML = '';
+                sortedGroups.forEach(group => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b hover:bg-gray-50';
+                    row.innerHTML = `
+                        <td class="py-3 px-4 font-medium text-gray-900">${group.name}</td>
+                        <td class="py-3 px-4 text-gray-700">${group.memberCount}</td>
+                        <td class="py-3 px-4 text-gray-700">${group.lastActivity.toLocaleDateString()}</td>
+                        <td class="py-3 px-4 text-gray-700">GH₵ ${group.totalSavings.toFixed(2)}</td>
+                        <td class="py-3 px-4 text-gray-700">GH₵ ${group.totalLoans.toFixed(2)}</td>
+                        <td class="py-3 px-4 text-gray-700">${group.createdAt.toLocaleDateString()}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            // Add event listeners for admin filters
+            const groupFilter = document.getElementById('group-filter');
+            const groupSearch = document.getElementById('group-search');
+
+            if (groupFilter) {
+                groupFilter.addEventListener('change', () => {
+                    loadAdminData();
+                });
+            }
+
+            if (groupSearch) {
+                groupSearch.addEventListener('input', () => {
+                    loadAdminData();
+                });
+            }
+        } 
+
+    </script>
+</body>
+</html>

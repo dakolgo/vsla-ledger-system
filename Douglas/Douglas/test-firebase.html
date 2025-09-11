@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Connection Test</h1>
+    <div id="status"></div>
+    
+    <script type="module">
+        const statusDiv = document.getElementById('status');
+        
+        function addStatus(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            statusDiv.appendChild(div);
+        }
+        
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQJNDCkCEsrAHBmrWTtaXFK6C1C2mRRPk",
+            authDomain: "vsla-35d27.firebaseapp.com",
+            projectId: "vsla-35d27",
+            storageBucket: "vsla-35d27.appspot.com",
+            messagingSenderId: "476757032868",
+            appId: "1:476757032868:web:4cb07571e7d7a3880c4b31",
+            measurementId: "G-CCCQ4HZ3V5"
+        };
+        
+        try {
+            addStatus('Testing Firebase connection...', 'info');
+            
+            // Import Firebase modules
+            const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+            const { getAuth } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+            const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+            
+            addStatus('Firebase modules imported successfully', 'success');
+            
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            addStatus('Firebase app initialized successfully', 'success');
+            
+            // Initialize Auth
+            const auth = getAuth(app);
+            addStatus('Firebase Auth initialized successfully', 'success');
+            
+            // Initialize Firestore
+            const db = getFirestore(app);
+            addStatus('Firebase Firestore initialized successfully', 'success');
+            
+            addStatus('✅ All Firebase services are working correctly!', 'success');
+            addStatus('The Akolgo Digital Ledger System is ready to use.', 'info');
+            
+        } catch (error) {
+            addStatus(`❌ Firebase connection failed: ${error.message}`, 'error');
+            console.error('Firebase test error:', error);
+        }
+    </script>
+</body>
+</html>

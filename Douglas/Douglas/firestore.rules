@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is super admin
+    function isSuperAdmin() {
+      return request.auth != null && 
+        request.auth.token.email in ['admin@vsla.com', 'superadmin@vsla.com'];
+    }
+    
+    // Users can read and write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Groups: users can create groups and read/write groups they own
+    // Super admins can read all groups
+    match /groups/{groupId} {
+      // Super admins can read all groups
+      allow read: if isSuperAdmin();
+      // Read/Update/Delete allowed only for the group's treasurer
+      allow read, update, delete: if request.auth != null &&
+        resource.data.treasurerId == request.auth.uid;
+      // Create allowed when the new document treasurer matches caller
+      allow create: if request.auth != null &&
+        request.resource.data.treasurerId == request.auth.uid;
+      
+      // Members subcollection: only group owner can read/write, super admins can read
+      match /members/{memberId} {
+        // Super admins can read all member data
+        allow read: if isSuperAdmin();
+        // Group owners can read/write their members
+        allow read, write: if request.auth != null && 
+          get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+
+        // Nested activity subcollections
+        match /savings/{savingId} {
+          // Super admins can read all savings data
+          allow read: if isSuperAdmin();
+          // Group owners can read/write their members' savings
+          allow read, write: if request.auth != null && 
+            get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+        }
+        match /loans/{loanId} {
+          // Super admins can read all loans data
+          allow read: if isSuperAdmin();
+          // Group owners can read/write their members' loans
+          allow read, write: if request.auth != null && 
+            get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+        }
+        match /repayments/{repaymentId} {
+          // Super admins can read all repayments data
+          allow read: if isSuperAdmin();
+          // Group owners can read/write their members' repayments
+          allow read, write: if request.auth != null && 
+            get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+        }
+        match /dues/{dueId} {
+          // Super admins can read all dues data
+          allow read: if isSuperAdmin();
+          // Group owners can read/write their members' dues
+          allow read, write: if request.auth != null && 
+            get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+        }
+      }
+
+      // Audit trail subcollection under groups
+      match /{groupId}/audit/{auditId} {
+        // Super admins can read all audit data
+        allow read: if isSuperAdmin();
+        // Group owners can read/write their audit data
+        allow read, write: if request.auth != null &&
+          get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+      }
+
+      // Distributions subcollection (share-outs)
+      match /{groupId}/distributions/{distributionId} {
+        // Super admins can read all distributions
+        allow read: if isSuperAdmin();
+        // Group owners can read/write their distributions
+        allow read, write: if request.auth != null &&
+          get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+      }
+
+      // Reports subcollection (generated reports metadata)
+      match /{groupId}/reports/{reportId} {
+        // Super admins can read all reports
+        allow read: if isSuperAdmin();
+        // Group owners can read/write their reports
+        allow read, write: if request.auth != null &&
+          get(/databases/$(database)/documents/groups/$(groupId)).data.treasurerId == request.auth.uid;
+      }
+    }
+  }
+}
